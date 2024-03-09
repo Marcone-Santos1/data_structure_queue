@@ -5,7 +5,8 @@ using namespace std;
 
 queue::queue()
 {
-    first, last = 0;
+    first = 0;
+    last = 0;
     vec = new T[MAX_ITEMS];
 }
 
@@ -16,7 +17,7 @@ queue::~queue()
 
 bool queue::isFull()
 {
-    return (length == MAX_ITEMS);
+    return (last - first == MAX_ITEMS);
 }
 
 bool queue::isEmpty()
@@ -26,32 +27,32 @@ bool queue::isEmpty()
 
 void queue::push(T item)
 {
-    if (this->isFull()) {
+    if (isFull()) {
         cout << "\nThe queue is full. It's not possible to add this element in queue\n";
         return;
     }
 
-    vec[length] = item;
-    length++;
+    vec[last % MAX_ITEMS] = item;
+    last++;
 }
 
 T queue::pop()
 {
 
-    if (this->isEmpty()) {
+    if (isEmpty()) {
         cout << "\nThe queue is empty. It's not possible to pop any element\n";
         return 0;
     }
 
-    length--;
-    return vec[length];
+    first++;
+    return vec[(first - 1) % MAX_ITEMS];
 }
 
 void queue::print()
 {
     cout << "queue: [";
-    for (int i = 0; i < length; i++) {
-        cout << vec[i] << " | ";
+    for (int i = first; i < last; i++) {
+        cout << vec[i % MAX_ITEMS] << " ";
     }
     cout << "]\n";
 
